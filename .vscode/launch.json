@@ -4,18 +4,6 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        /*{
-            "name": "Launch file",
-            "type": "go",
-            "showLog": false,
-            "logOutput": "dap",
-            "request": "launch",
-            "mode": "auto",
-            "program": "main.go",
-            "env": {},
-            "args": []
-        },
-        */
         {
             "name": "Test",
             "type": "go",
@@ -25,7 +13,18 @@
             "env": {},
             "args": ["-test.v"],
             "showLog": false,
-        }       
-
+        },
+        {
+            "name": "DebugCurrent file",
+            "type": "go",
+            "mode": "test",
+            "showLog": false,
+            "logOutput": "dap",
+            "request": "launch",
+            "program": "${file}",
+            "env": {},
+            "args": [],
+        },
+    
     ]
 }

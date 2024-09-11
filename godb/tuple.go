@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
-
 )
 
 // DBType is the type of a tuple field, in GoDB, e.g., IntType or StringType
@@ -104,7 +103,7 @@ func (td *TupleDesc) setTableAlias(alias string) {
 // appended onto the fields of desc.
 func (desc *TupleDesc) merge(desc2 *TupleDesc) *TupleDesc {
 	// TODO: some code goes here
-	return &TupleDesc{}  //replace me
+	return &TupleDesc{} //replace me
 }
 
 // ================== Tuple Methods ======================
@@ -224,7 +223,7 @@ func (t *Tuple) compareField(t2 *Tuple, field Expr) (orderByState, error) {
 // entry t2.name in t, but only if there is not an entry t1.name in t)
 func (t *Tuple) project(fields []FieldType) (*Tuple, error) {
 	// TODO: some code goes here
-	return nil, fmt.Errorf("project not implemented")  //replace me
+	return nil, fmt.Errorf("project not implemented") //replace me
 }
 
 // Compute a key for the tuple to be used in a map structure

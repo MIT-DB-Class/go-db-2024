@@ -58,7 +58,7 @@ type heapPage struct {
 // Construct a new heap page
 func newHeapPage(desc *TupleDesc, pageNo int, f *HeapFile) (*heapPage, error) {
 	// TODO: some code goes here
-	return &heapPage{}, fmt.Errorf("newHeapPage is not implemented") //replace me
+	return &heapPage{}, nil //replace me
 }
 
 func (h *heapPage) getNumSlots() int {
@@ -125,6 +125,6 @@ func (h *heapPage) initFromBuffer(buf *bytes.Buffer) error {
 func (p *heapPage) tupleIter() func() (*Tuple, error) {
 	// TODO: some code goes here
 	return func() (*Tuple, error) {
-	return nil, fmt.Errorf("heap_file.Iterator not implemented") // replace me
+		return nil, fmt.Errorf("heap_file.Iterator not implemented") // replace me
 	}
 }

@@ -5,8 +5,8 @@ import (
 	"testing"
 )
 
-func TestBufferPoolGetPage(t *testing.T) {
-	_, t1, t2, hf, bp, _ := makeTestVars(t)
+func TestGetPage(t *testing.T) {
+	_, t1, t2, hf, bp, _ := makeTestVars()
 	tid := NewTID()
 	for i := 0; i < 300; i++ {
 		bp.BeginTransaction(tid)
@@ -41,7 +41,7 @@ func TestBufferPoolGetPage(t *testing.T) {
 }
 
 func TestSetDirty(t *testing.T) {
-	_, t1, _, hf, bp, _ := makeTestVars(t)
+	_, t1, _, hf, bp, _ := makeTestVars()
 	tid := NewTID()
 	bp.BeginTransaction(tid)
 	for i := 0; i < 308; i++ {
@@ -56,13 +56,8 @@ func TestSetDirty(t *testing.T) {
 	t.Fatalf("Expected error due to all pages in BufferPool being dirty")
 }
 
-// Test is only valid up to Lab 4. In Lab 5 we switch from FORCE/NOSTEAL to NOFORCE/STEAL.
 func TestBufferPoolHoldsMultipleHeapFiles(t *testing.T) {
-	if os.Getenv("LAB") == "5" {
-		t.Skip("This test is only valid up to Lab 4. Skipping")
-	}
-
-	td, t1, t2, hf, bp, tid := makeTestVars(t)
+	td, t1, t2, hf, bp, tid := makeTestVars()
 	os.Remove(TestingFile2)
 	hf2, err := NewHeapFile(TestingFile2, &td, bp)
 	if err != nil {

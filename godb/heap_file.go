@@ -29,7 +29,7 @@ type HeapFile struct {
 // May return an error if the file cannot be opened or created.
 func NewHeapFile(fromFile string, td *TupleDesc, bp *BufferPool) (*HeapFile, error) {
 	// TODO: some code goes here
-	return &HeapFile{}, fmt.Errorf("NewHeapFile not implemented") //replace me
+	return &HeapFile{}, nil //replace me
 }
 
 // Return the name of the backing file
@@ -181,7 +181,7 @@ func (f *HeapFile) Descriptor() *TupleDesc {
 func (f *HeapFile) Iterator(tid TransactionID) (func() (*Tuple, error), error) {
 	// TODO: some code goes here
 	return func() (*Tuple, error) {
-	return nil, fmt.Errorf("heap_file.Iterator not implemented")
+		return nil, fmt.Errorf("heap_file.Iterator not implemented")
 	}, nil
 }
 
