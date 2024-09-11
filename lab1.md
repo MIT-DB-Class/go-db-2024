@@ -17,18 +17,9 @@ the core modules required to access stored data on disk; in future labs, you
 will add support for various query processing operators, as well as
 transactions, locking, and concurrent queries.
 
-Unlike in previous years, this year's labs are implemented in Go.
-Since Course 6 has moved away from teaching Java in our software engineering classes, it
-makes less sense to use Java for our systems classes as well.  Go is a simple, modern language
-that is easy to learn and efficient.  It uses garbage collection so is far easier to program than
-e.g., C or C++.  In addition, few students in the class will have extensive experience with Go,
-so it "levels the playing field", unlike Java where some students  know it very well
-and others have little experience with it.
-
-Because this is the first year we are using Go, there will certainly be bugs in the labs or things
-that are not clear.  Please be patient with us;  we will do our best to be responsive and help you
-resolve issues and ambiguity.  We have also reduced the number of required labs from 4 to 3 (adding a Go Tutorial)
-in place of one of the labs.
+GoDB is implemented in Go, a simple and modern language
+that is efficient and easy to learn.  It uses garbage collection so is far easier to program than
+e.g., C or C++.
 
 For GoDB We have provided you with a set of mostly
 unimplemented methods, which you will need to fill in.
