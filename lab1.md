@@ -17,16 +17,25 @@ the core modules required to access stored data on disk; in future labs, you
 will add support for various query processing operators, as well as
 transactions, locking, and concurrent queries.
 
-GoDB is implemented in Go, a simple and modern language
-that is efficient and easy to learn.  It uses garbage collection so is far easier to program than
-e.g., C or C++.
+Unlike in the old edition of the course, we started implementing the labs in Go starting from last year.
+Since Course 6 has moved away from teaching Java in our software engineering classes, it
+makes less sense to use Java for our systems classes as well.  Go is a simple, modern language
+that is easy to learn and efficient.  It uses garbage collection so is far easier to program than
+e.g., C or C++.  In addition, few students in the class will have extensive experience with Go,
+so it "levels the playing field", unlike Java where some students know it very well
+and others have little experience with it.
+
+Because this is the second year we are using Go, there may still very well be bugs in the labs or things
+that are not clear.  Please be patient with us;  we will do our best to be responsive and help you
+resolve issues and ambiguity.  We have also reduced the number of required labs from 4 to 3 (adding a Go Tutorial Lab 0)
+in place of one of the labs.
 
 For GoDB We have provided you with a set of mostly
 unimplemented methods, which you will need to fill in.
 We will grade your code by running a set of tests written using
-[Go testing](https://pkg.go.dev/testing). We provide you with many of these tests and you can use
-them for testing your code yourself. However, we will also use some hidden tests for evaluating your code.
-We therefore encourage you to develop your own test suite in addition to our tests.
+[Go testing](https://pkg.go.dev/testing), similar to Lab 0. We provide you with part of these tests which you can use
+ for testing your code yourself. However, we will also reserve some hidden tests for evaluating your code.
+We therefore encourage you to develop your own test suite in addition to the tests supplied.
 
 The remainder of this document describes the basic architecture of GoDB,
 gives some suggestions about how to start coding, and discusses how to hand in
@@ -38,14 +47,12 @@ requires you to write a fair amount of code!
 
 ##  0.  Find bugs, be patient, earn treats
 
-GoDB is a relatively complex piece of code, and we have written it from scratch for last
-year's 6.5830 class. It is very possible you are
-going to find bugs, inconsistencies, and bad or incorrect
+GoDB is a relatively complex piece of code, and we have written it from scratch fairly recently. It is very possible you are
+going to find bugs, inconsistencies, and unclear
 documentation, etc.
 
-We ask you, therefore, to do this lab with an adventurous mindset.  Don't get
-mad if something is not clear, or even wrong; rather, try to figure it out
-yourself or send us a friendly email. We promise to help out by posting bug
+If something is suspicious or unclear, you are welcome to try to figure it out
+yourself and make a public Piazza post, or send us a friendly email. We promise to be as attentive as possible ans help out by posting bug
 fixes, new commits to the HW repo, etc., as bugs and issues are reported.
 
 <p>...and if you find a bug in our code, we'll give you a yummy treat (see
@@ -92,7 +99,7 @@ go test
 
 The output above indicates that all of the tests failed; this is
 because the code we have given you doesn't yet work. As you complete parts of
-the lab, you will work towards passing additional unit tests, which are located in files named like `*_test.go`.
+the lab, you will work towards passing additional unit tests, which are located in files named like `*_test.go` under `godb/`.
 
 
 ### 1.2. Working with an IDE
@@ -108,8 +115,8 @@ including Go. You can find installation instructions
 
 The following is specific to setting up the godb work directory for Lab 1.
 
-1. `git clone` from the Lab1 Github repo.
-2. Open VSCode, then File -> Open Folder -> Choose the cloned folder
+1. `git clone` from the Lab1 Github repo. 
+2. Open VSCode, then File -> Open Folder -> Choose the cloned folder 
 3. Still in VSCode, Terminal -> New Terminal
 4. Run the following in the terminal:
 ```
@@ -119,7 +126,7 @@ go get ../godb
 go test
 ```
 
-You should then see the failed test messages as described in the previous section.
+You should then see the failed test messages as described in the previous section. You can refer to the main README of the repo or the pdf handout for additional git suggestions.
 
 
 
@@ -128,15 +135,14 @@ You should then see the failed test messages as described in the previous sectio
 Before beginning to write code, we **strongly encourage** you to read through
 this entire document to get a feel for the high-level design of GoDB.
 
-You will need to fill in any piece of code that is not implemented. It will be
-obvious where we think you should write code. You may need to add private
+You will need to fill in any piece of code that is not implemented. You may need to add private
 methods and/or helper classes. You may change APIs, but make sure our
  tests still run and make sure to mention, explain, and
-defend your decisions in your writeup.
+justify your decisions in your writeup.
 
 In addition to the methods that you need to fill out for this lab, the class
 interfaces contain some methods that you need not implement until subsequent
-labs. These will either be indicated per method:
+labs. These will either be indicated per method, for example `AbortTransaction` is a method you do not need to implement for lab 1:
 
 ```golang
 // Abort the transaction, releasing locks
@@ -150,24 +156,24 @@ func (bp *BufferPool) AbortTransaction(tid TransactionID) {
 ```
 
 
-The code that you submit should compile without having to modify these methods.
+The code that you submit should compile and run without having to modify these methods.
 
 We suggest exercises along this document to guide your implementation, but you
 may find that a different order makes more sense for you.
 
-**Here's a rough outline of one way you might proceed with your GoDB
+**Here's a rough outline of one way you might proceed with your Lab 1
 implementation:**
 
 ---
 
 * We have provided you with a set of core types and interfaces in `types.go`.  Review these as you will need to use them.
 * Implement the missing functions in `tuple.go`.  These methods allow you to compare tuples and tuple descriptors.
-* Implement the `buffer_pool.go` constructor and the `GetPage()` method.  You can ignore the transaction methods for lab 1.
+* Implement the `buffer_pool.go` constructor and the `GetPage()` method.  You can ignore the transaction methods and use the `TransactionID`'s in other signatures in the trivial way for lab 1.
 * Implement the missing methods in `heap_file.go` and `heap_page.go`.  
 These allow you to create heap files, insert and delete records from them,
 and iterate through them.  Some of the methods have already been written for you.  
-* At this point, you should be able to pass the `lab1_query_test.go` test, which is
-  the goal for this lab.
+* At this point, you should be able to pass all the unit tests except for the `lab1_query_test.go` integration test.
+* Implement `computeFieldSum` in `lab1_query.go` according to the doc string. This exercise allows you to write and run the first query with your version of GoDB. After finishing, you shoudl be able to pass `lab1_query_test.go` as well, which is the goal of the lab.
 
 ---
 
@@ -177,10 +183,10 @@ corresponding to each one in more detail.
 ### 1.4. Transactions, locking, and recovery
 
 As you look through the interfaces we have provided you, you will see a number
-of references to locking and transactions. You do not need to support
+of references to transactions. You do not need to support
 these features in this lab, but you should keep these parameters in the
 interfaces of your code because you will be implementing transactions and
-locking in a future lab. The test code we have provided you with generates a
+concurrency controll in a future lab. The test code we have provided you with generates a
  transaction ID that is passed into the operators of the query it runs; you
 should pass this transaction ID into other operators and the buffer pool.
 
@@ -224,7 +230,7 @@ You will add support for additional operators in future labs.
 ### 2.1. Core Classes
 
 The main database state is stored in
-the catalog (the list of all the tables in the database - you will not need this in lab 1),
+the catalog (the list of all the tables in the database - you will not need to do anything for this in lab 1),
 the buffer pool (the collection of database file pages that are currently resident in memory), and
 the various data files (e.g., heap files) that store data on disk in pages.
 You will implement the buffer pool and heap files in this lab.
@@ -294,28 +300,27 @@ fixed number of pages, defined by the `numPages` parameter to the `BufferPool`
 constructor `NewBufferPool`.  
 
 For this lab,
-you only need to implement the constructor and the `BufferPool.getPage()` method
-used by the `HeapFile` iterator.
+you need to implement the constructor and the `BufferPool.getPage()` method
+used by the `HeapFile` iterator, as well as the `BufferPool.flushAllPages()` method.
 The buffer pool stores structs that implement the `Page` interface;  these pages can be read from
 underlying database files (such as a heap file) which implement the `DBFile` interface using the
 `readPage` method.
 The BufferPool should store up to `numPages`
-pages. If more than `numPages` requests are made for different
-pages, you should evict one of them according to an eviction policy of your choice.
+pages. `numPages` is passed to the constructor as a parameter. If more than `numPages` requests are made for different
+pages, you should evict one of them according to an eviction policy of your choice (nothing sophisticated needed).
 Note that you *should not* evict dirty pages (pages where the `Page` method `isDirty()` returns true), for
-reasons we will explain when we discuss transactions later in the class.
-You don't need to worry about locking in lab 1.
+reasons we will explain when we discuss transactions later in the class. For Lab 1, if all pages are dirty, return an error.
 
 
 
 ### Exercise 2
 
-**Implement the `getPage()` method in:**
+**Implement the `getPage()`, `flushAllPages`, and constructor method in:**
 
 ---
 * `buffer_pool.go`
 ---
-There is a unit test  `buffer_pool_test.go`, but you will not be able to pass this test
+There is a unit test suite  `buffer_pool_test.go`, but you will not be able to pass this test
 until you implement the heap file and heap page methods below.  You will also test the functionality
 of the buffer pool when you implement your heap file iterator.
 
@@ -380,13 +385,13 @@ following our skeleton.
 Assuming you follow our outline, there are five non-trivial methods to implement:
 
 1. `insertTuple()` : This method should add a tuple to the page if there is space.  Because a heap file is unordered, it
-can be inserted in any free slot.
+can be inserted in any free slot.  After inserting a tuple on a page, you should mark it dirty.
 
 2. `deleteTuple()` : Delete a specific tuple from the page.
 Note that this method takes a specific recordID (or "rid") to delete.  recordID is an empty interface; you are free
 to use any struct you like for the rid, but for a heap file a rid would typically include the page number and the slot number on the page.
 The page number would typically be the offset in the heap file of the page, and the slot number would likely by the position of the tuple
-in the in-memory slice of tuples on the page. You will set the rid field of the tuples you return from your iterator.  Your heap file implementation should use this rid to identify the specific page to delete from, and then pass the rid into this method so that you can delete the appropriate tuple.   Note that if you choose to represent a page in memory as a slice of tuples, and the slot in the rid is the position in the slice, you should take care to not cause the rid to change when you perform the deletion.  One way to achieve this is to set the position in the slice to nil (rather than creating a new slice with the deleted tuple removed from it), but many implementations are possible.
+in the in-memory slice of tuples on the page. You will set the rid field of the tuples you return from your iterator.  Your heap file implementation should use this rid to identify the specific page to delete from, and then pass the rid into this method so that you can delete the appropriate tuple.   Note that if you choose to represent a page in memory as a slice of tuples, and the slot in the rid is the position in the slice, you should take care to not cause the rid to change when you perform the deletion.  One way to achieve this is to set the position in the slice to nil (rather than creating a new slice with the deleted tuple removed from it), but many implementations are possible.  After deleting a tuple from a page, you should mark it dirty.
 
 3. `toBuffer()` : Serialize the pages to a `bytes.Buffer` object for saving to disk, using the `binary.Write()` method to encode the header and the `writeTo()` method from your tuple implementation.   Note that the header includes the number of used slots, but does not encode which slots are empty and which are not.  This is ok, because, in GoDB you do not need to preserve the record ids of records when they are written out (so a particular tuple's rid may change after it is written and then read back.)  
 
@@ -394,7 +399,7 @@ in the in-memory slice of tuples on the page. You will set the rid field of the 
 
 5. `tupleIter()` : Return a function that can be invoked to interate through the tuples of the page.   See the note about iterators in [2.2](#22-operators-and-iterators) above.
 
-There are a few other methods (`setDirty()`, `isDirty()`, `getNumSlots()`, and the `newHeapPage()` constructor) that you will need to implement, but these should be straightfoward.
+There are a few other relatively simpler methods (`setDirty()`, `isDirty()`, `getNumSlots()`, and the `newHeapPage()` constructor) that you will need to implement
 
 At this point, your code should pass the unit tests in `heap_page_test.go`.
 
@@ -419,7 +424,7 @@ the file. Hint: you will need random access to the file in order to read and
 write pages at arbitrary offsets -- check out the golang `os.File` type and its `ReadAt()` method.
 You should not call `BufferPool` methods when reading a page from disk in the `readPage()` method, but you will
 use the buffer pool `getPage()` method in your implementations of the heap file `iterator`.  Once you have read in the bytes of the page you can create the page using the heap page method `newHeapPage()`.  You can convert bytes read from a file to a buffer via the `bytes.NewBuffer()` method.
-4. `flushPage()` - Force a given page object back to disk.  The supplied page will be a `HeapPage`;  you should cast it and retrieve its bytes via the heap page method `toBytes()`.  You can then write these bytes back to the appropriate location on disk by opening the backing file and using a method like `os.File.WriteAt()`.
+4. `flushPage()` - Force a given page object back to disk.  The supplied page will be a `HeapPage`;  you should cast it and retrieve its bytes via the heap page method `toBuffer()`.  You can then write these bytes back to the appropriate location on disk by opening the backing file and using a method like `os.File.WriteAt()`.
 5. `insertTuple()` - Add a tuple to the heap file;  because the heap file is unordered, it can be inserted in any free slot in the file
 6. `deleteTuple()` - Remove a specific tuple from the heap file.  You should use the rid field of the tuple to determine which page the
 tuple is in, and call the heap page method `deleteTuple()` on the appropriage page.
@@ -433,7 +438,7 @@ time as the buffer pool accesses them via calls to `readPage()`.
 9. `pageKey()` - Return a struct that can be used as a key for the page.  The buffer pool uses this to determine whether the page is cached or not.  We have provided an implementation hint in the comment of this function.
 
 
-At this point, your code should pass the unit tests in `heap_file_test.go` and `buffer_pool_test.go`.  This completes the tests for this lab.  You should complete the final exercises in the next section.
+At this point, your code should pass the unit tests in `heap_file_test.go` and `buffer_pool_test.go`.  This completes the unit tests for this lab.  You should complete the final exercises in the next section.
 
 
 <a name="query_walkthrough"></a>
