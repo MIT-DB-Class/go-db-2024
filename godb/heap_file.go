@@ -6,7 +6,6 @@ import (
 	"os"
 	"strconv"
 	"strings"
-	"sync"
 )
 
 // A HeapFile is an unordered collection of tuples.
@@ -18,7 +17,6 @@ type HeapFile struct {
 	// HeapFile should include the fields below;  you may want to add
 	// additional fields
 	bufPool *BufferPool
-	sync.Mutex
 }
 
 // Create a HeapFile.
@@ -50,7 +48,7 @@ func (f *HeapFile) NumPages() int {
 // - skipLastField: if true, the final field is skipped (some TPC datasets include a trailing separator on each line)
 // Returns an error if the field cannot be opened or if a line is malformed
 // We provide the implementation of this method, but it won't work until
-// [HeapFile.insertTuple] is implemented
+// [HeapFile.insertTuple] and some other utility functions are implemented
 func (f *HeapFile) LoadFromCSV(file *os.File, hasHeader bool, sep string, skipLastField bool) error {
 	scanner := bufio.NewScanner(file)
 	cnt := 0
@@ -93,16 +91,12 @@ func (f *HeapFile) LoadFromCSV(file *os.File, hasHeader bool, sep string, skipLa
 		newT := Tuple{*f.Descriptor(), newFields, nil}
 		tid := NewTID()
 		bp := f.bufPool
-		bp.BeginTransaction(tid)
 		f.insertTuple(&newT, tid)
 
 		// Force dirty pages to disk. CommitTransaction may not be implemented
 		// yet if this is called in lab 1 or 2.
 		bp.FlushAllPages()
 
-		//commit frequently, to avoid all pages in BP being full
-		//todo fix
-		bp.CommitTransaction(tid)
 	}
 	return nil
 }

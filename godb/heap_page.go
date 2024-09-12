@@ -3,7 +3,6 @@ package godb
 import (
 	"bytes"
 	"fmt"
-	"sync"
 )
 
 /* HeapPage implements the Page interface for pages of HeapFiles. We have
@@ -50,9 +49,6 @@ dirty page, it's OK if tuples are renumbered when they are written back to disk.
 
 type heapPage struct {
 	// TODO: some code goes here
-	beforeImage *heapPage
-	dirtier     TransactionID
-	sync.Mutex
 }
 
 // Construct a new heap page
@@ -83,17 +79,12 @@ func (h *heapPage) deleteTuple(rid recordID) error {
 // Page method - return whether or not the page is dirty
 func (h *heapPage) isDirty() bool {
 	// TODO: some code goes here
-	// TODO: some code goes here
 	return false //replace me
 }
 
 // Page method - mark the page as dirty
 func (h *heapPage) setDirty(tid TransactionID, dirty bool) {
 	// TODO: some code goes here
-	// TODO: some code goes here
-	if dirty {
-		h.dirtier = tid
-	}
 }
 
 // Page method - return the corresponding HeapFile

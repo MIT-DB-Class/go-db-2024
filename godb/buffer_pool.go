@@ -7,7 +7,6 @@ package godb
 
 import (
 	"fmt"
-	"log"
 )
 
 // Permissions used to when reading / locking pages
@@ -20,7 +19,6 @@ const (
 
 type BufferPool struct {
 	// TODO: some code goes here
-	logFile *LogFile
 }
 
 // Create a new BufferPool with the specified number of pages

@@ -9,7 +9,10 @@ import (
 func CheckIfOutputMatches(f func() (*Tuple, error), ts []*Tuple) error {
 	n := 0
 	for {
-		t1, _ := f()
+		t1, err := f()
+		if err != nil {
+			return err
+		}
 		if t1 == nil {
 			break
 		}
@@ -36,7 +39,10 @@ func CheckIfOutputMatchesUnordered(f func() (*Tuple, error), ts []*Tuple) error 
 
 	i := 0
 	for {
-		t1, _ := f()
+		t1, err := f()
+		if err != nil {
+			return err
+		}
 		if t1 == nil {
 			break
 		}
@@ -306,7 +312,7 @@ func TestTupleEquals(t *testing.T) {
 }
 
 func TestJoinTuplesDesc(t *testing.T) {
-	_, t1, t2, _, _, _ := makeTestVars(t)
+	_, t1, t2 := makeTupleTestVars()
 	tNew := joinTuples(&t1, &t2)
 	if len(tNew.Desc.Fields) != 4 {
 		t.Fatalf("Expected 4 fields in desc after join")
@@ -420,7 +426,10 @@ func TestTupleProject3(t *testing.T) {
 
 	ft1 := FieldType{"a", "", StringType}
 	ft2 := FieldType{"b", "", IntType}
-	outTup, _ := t1.project([]FieldType{ft1})
+	outTup, err := t1.project([]FieldType{ft1})
+	if err != nil {
+		t.Fatalf(err.Error())
+	}
 	if (len(outTup.Fields)) != 1 {
 		t.Fatalf("project returned %d fields, expected 1", len(outTup.Fields))
 	}
@@ -474,8 +483,14 @@ func TestTupleJoinNil(t *testing.T) {
 	if !tNew.equals(&t1) {
 		t.Fatalf("Unexpected output of joinTuple with nil")
 	}
+	if tNew.equals(&t2) {
+		t.Fatalf("Unexpected output of joinTuple with nil")
+	}
 	tNew2 := joinTuples(nil, &t2)
 	if !tNew2.equals(&t2) {
+		t.Fatalf("Unexpected output of joinTuple with nil")
+	}
+	if tNew2.equals(&t1) {
 		t.Fatalf("Unexpected output of joinTuple with nil")
 	}
 }
