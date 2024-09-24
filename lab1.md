@@ -445,7 +445,7 @@ At this point, your code should pass the unit tests in `heap_file_test.go` and `
 
 ### 2.6. A simple query
 
-In the next lab, you will implement "Operators" that will allow you to run actual SQL queries against GoDB.  For the final test in this lab, we ask you to implement a simple query in go logic.  This method takes the name of a CSV file and a `TupleDesc` and a field name and return the sum of the supplied field name.  You can use the `HeapFile.LoadFromCSV` method to load the CSV file, and the `fieldFieldInTd` method
+In the next lab, you will implement "Operators" that will allow you to run actual SQL queries against GoDB.  For the final test in this lab, we ask you to implement a simple query in go logic.  This method takes the name of a CSV file and a `TupleDesc` and a field name and return the sum of the supplied field name.  You can use the `HeapFile.LoadFromCSV` method to load the CSV file, and the `findFieldInTd` method
 to find the field number in the `TupleDesc`, if it exists.
 
 ### Exercise 5
