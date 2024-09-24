@@ -1,0 +1,2 @@
+test(a string, b int)
+test2(c string, d int)

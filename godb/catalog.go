@@ -178,6 +178,11 @@ func (c *Catalog) addTable(named string, desc TupleDesc) (DBFile, error) {
 	return hf, nil
 }
 
+func (c *Catalog) ComputeTableStats() error {
+	// Dummy implementation, do not worry about it.
+	return nil
+}
+
 func (c *Catalog) tableNameToFile(tableName string) string {
 	return c.rootPath + "/" + tableName + ".dat"
 }

@@ -7,7 +7,6 @@ replace github.com/srmadden/godb => ./godb
 require (
 	github.com/chzyer/readline v1.5.1
 	github.com/srmadden/godb v0.0.0-00010101000000-000000000000
-	golang.org/x/exp v0.0.0-20240529005216-23cca8864a10
 )
 
 require (

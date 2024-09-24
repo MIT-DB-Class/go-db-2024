@@ -1,0 +1,2 @@
+jointest1(name int)
+jointest2(name int)
