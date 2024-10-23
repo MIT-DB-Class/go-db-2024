@@ -16,7 +16,7 @@ func TestParseEasy(t *testing.T) {
 		{SQL: "select sum(age) as s from t group by t.name having s > 30", Ordered: false},
 		{SQL: "select sum(age + 10) , sum(age) from t", Ordered: false},
 		{SQL: "select min(age) + max(age) from t", Ordered: false},
-		{SQL: "select * from t order by t.age limit 1+2", Ordered: true},
+		{SQL: "select * from t order by t.age, t.name limit 1+2", Ordered: true},
 		{SQL: "select t.name, t.age from t join t2 on t.name = t2.name, t2 as t3 where t.age < 50 and t3.age = t.age order by t.age asc, t.name asc", Ordered: true},
 		{SQL: "select sq(sq(5)) from t", Ordered: false},
 		{SQL: "select 1, name from t", Ordered: false},
