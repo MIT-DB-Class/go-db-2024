@@ -3,7 +3,7 @@
 
 **Assigned:**  Wednesday October 23, 2024
 **Checkpoint Due:**  Wednesday October 30, 2024 by 11:59 ET
-**Due:**  Monday November 4, 2024 by 11:59 PM ET
+**Due:**  Wednesday November 6, 2024 by 11:59 PM ET
 
 In this lab, you will implement a simple locking-based transaction system in GoDB. You will need to add lock and unlock calls at the appropriate places in your code, as well as code to track the locks held by each transaction and grant locks to transactions as they are needed.
 
