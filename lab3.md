@@ -102,6 +102,17 @@ You will need to acquire a  _shared_  lock on any page (or tuple) before you rea
 
 Our testing system relies on the godb implementation returning an error when the transaction is aborted (due to deadlocks etc.). If the transaction is aborted, your implementation is not responsible for restarting the transaction. Simply return an error and the test suite (called/user of the system) will restarte the transaction. Before you start implementing anything for this lab, check that `TestTransactionTid` passes. This test relies on the implementation we have provided you for `NewTID()` which the rest of the system and the tests depend on. If it does not pass, contact the course staff. At this point, `TestTransaction` will not terminate since `insertTuple` returns an error for a buffer pool full with dirty pages, not an aborted transaction (see `readXaction` and `writeXaction` in `transaction_test.go`). This part will execute normally after you implement exercises 1 and 2.
 
+Before you start working on lab3, you may also find that the following tests already pass. This is normal as they should work for a sequential implementation. After you add transaction related features, these tests should still pass. There is a small portion of credit assigned for them.
+* `TestLockingAcquireReadLocksOnSampePage`
+* `TestLockingAcquireReadWriteLocksOnTwoPages`
+* `TestLockingAcquireWriteLocksOnTwoPages`
+* `TestLockingAcquireReadLocksOnTwoPages`
+* `TestLockingUpgrade`
+* `TestLockingAcquireWriteAndReadLocks`
+* `TestTransactionTwice`
+* `TestTransactionCommit`
+* `TestTransactionSingleThread`
+
 **Exercise 1.**
 
 Write the methods that acquire transactional locks in BufferPool. Assuming you are using page-level locking, you will need to modify `GetPage`  to block and acquire the desired lock (specified by `RWPerm`) before returning a page.   `GetPage` receives a `TransactionID` that is attempting to acquire the lock.  You will want to allocate data structures that keep track of the shared and exclusive locks each transaction is currently holding.  
