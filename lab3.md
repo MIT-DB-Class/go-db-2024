@@ -161,9 +161,9 @@ Add synchronization primitives like mutexes throughout GoDB. For most implementa
 -   Adding a new page to a  `HeapFile`. When do you physically write the page to disk? Are there race conditions with other transactions (on other threads) that might need special attention at the HeapFile level, regardless of page-level locking?
 -   Looking for an empty slot into which you can insert tuples. 
 
-In the staff implementation, we only needed a mutex in two places.  We  added a `Mutex` `m` to our HeapFile.  We then locked `m` on entry to `insertTuple` and released it before any return.  We also locked `m` on entry to `deleteTuple` and released before any return.   This is because we want to avoid two inserts adding a page at the same time and because we have some shared heap file variables that keep track of the last page inserted into and the total number of pages.  We didn't need to acquire the mutex during our  iterator because we know that no other transaction will modify a page while we are scanning it.
+In the staff implementation, we only needed a mutex in two places.  We  added a `Mutex` `m` to our HeapFile.  We then locked and unlocked `m` in `insertTuple` and `deleteTuple` as we needed. This is because we want to avoid two inserts/deletes modifying shared heapFile variables, for example, variables that keep track of the last page inserted into and the total number of pages. We didn't need to acquire the mutex during our iterator because we know that no other transaction will modify a page while we are scanning it, thanks to the page locks.
 
-There are no test cases for this exercise because the places where synchronization needs to be added are dependent on your implementation.
+There are no specific test cases for this exercise because the places where synchronization needs to be added are dependent on your implementation.
 
 ----------
 
